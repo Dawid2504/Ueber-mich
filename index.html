@@ -8,8 +8,11 @@
       name="description"
       content="Dawid Makowski - IT-orientierter Berufseinsteiger mit Fokus auf Wirtschaftsinformatik, digitale Prozesse und Datenschutz."
     />
+    <meta name="theme-color" content="#2563eb" />
     <style>
-      * {
+      *,
+      *::before,
+      *::after {
         margin: 0;
         padding: 0;
         box-sizing: border-box;
@@ -24,23 +27,51 @@
         --gray-700: #334155;
         --gray-500: #64748b;
         --gray-300: #cbd5e1;
+        --gray-200: #e2e8f0;
         --gray-100: #f1f5f9;
         --white: #ffffff;
         --gradient: linear-gradient(135deg, #2563eb 0%, #06b6d4 100%);
+
+        --shadow-sm: 0 4px 16px rgba(15, 23, 42, 0.06);
+        --shadow-md: 0 12px 32px rgba(15, 23, 42, 0.08);
+        --shadow-lg: 0 24px 48px rgba(37, 99, 235, 0.16);
+
+        --radius-sm: 12px;
+        --radius-md: 16px;
+        --radius-lg: 24px;
+
+        --nav-height: 72px;
       }
 
       html {
         scroll-behavior: smooth;
+        /* Verhindert, dass Anker-Ziele unter der fixierten Navigation landen */
+        scroll-padding-top: calc(var(--nav-height) + 16px);
       }
 
       body {
         font-family:
-          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-          Cantarell, sans-serif;
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          sans-serif;
         background: var(--gray-100);
         color: var(--gray-900);
         line-height: 1.6;
         overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 4px;
       }
 
       /* Navigation */
@@ -48,17 +79,23 @@
         position: fixed;
         top: 0;
         width: 100%;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
+        height: var(--nav-height);
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--gray-200);
         z-index: 1000;
-        box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s ease;
+        box-shadow: 0 2px 20px rgba(15, 23, 42, 0.04);
+        transition: box-shadow 0.3s ease;
       }
 
       .nav-container {
+        width: 100%;
         max-width: 1200px;
         margin: 0 auto;
-        padding: 1rem 2rem;
+        padding: 0 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -67,10 +104,12 @@
       .logo {
         font-size: 1.5rem;
         font-weight: 800;
+        letter-spacing: -0.02em;
+        text-decoration: none;
         background: var(--gradient);
         -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
         background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
       .nav-links {
@@ -83,26 +122,30 @@
         text-decoration: none;
         color: var(--gray-700);
         font-weight: 500;
+        font-size: 0.95rem;
         transition: color 0.3s;
         position: relative;
       }
 
-      .nav-links a:hover {
+      .nav-links a:hover,
+      .nav-links a.active {
         color: var(--primary);
       }
 
       .nav-links a::after {
         content: "";
         position: absolute;
-        bottom: -5px;
+        bottom: -6px;
         left: 0;
         width: 0;
         height: 2px;
         background: var(--gradient);
+        border-radius: 2px;
         transition: width 0.3s;
       }
 
-      .nav-links a:hover::after {
+      .nav-links a:hover::after,
+      .nav-links a.active::after {
         width: 100%;
       }
 
@@ -110,9 +153,10 @@
         display: none;
         background: none;
         border: none;
-        font-size: 1.5rem;
+        padding: 0.4rem;
         color: var(--gray-900);
         cursor: pointer;
+        line-height: 0;
       }
 
       /* Hero Section */
@@ -124,26 +168,23 @@
         justify-content: center;
         position: relative;
         overflow: hidden;
-        padding: 6rem 2rem 4rem;
+        padding: calc(var(--nav-height) + 3rem) 2rem 4rem;
       }
 
       .hero::before {
         content: "";
         position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
+        inset: 0;
         background-image:
           radial-gradient(
-            circle at 20% 50%,
-            rgba(255, 255, 255, 0.1) 0%,
-            transparent 50%
+            circle at 18% 30%,
+            rgba(255, 255, 255, 0.14) 0%,
+            transparent 45%
           ),
           radial-gradient(
-            circle at 80% 80%,
-            rgba(255, 255, 255, 0.1) 0%,
-            transparent 50%
+            circle at 82% 80%,
+            rgba(255, 255, 255, 0.12) 0%,
+            transparent 45%
           );
       }
 
@@ -151,40 +192,62 @@
         text-align: center;
         color: white;
         z-index: 1;
-        max-width: 800px;
-        animation: fadeInUp 1s ease;
+        max-width: 820px;
+        animation: fadeInUp 0.9s ease both;
+      }
+
+      .hero-avatar {
+        width: 110px;
+        height: 110px;
+        margin: 0 auto 1.75rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2.5rem;
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--primary);
+        background: rgba(255, 255, 255, 0.95);
+        border: 3px solid rgba(255, 255, 255, 0.6);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.25);
       }
 
       .hero-badge {
         display: inline-block;
         padding: 0.5rem 1.5rem;
         background: rgba(255, 255, 255, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.35);
         border-radius: 50px;
         font-size: 0.9rem;
+        font-weight: 500;
         margin-bottom: 1.5rem;
         backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
       }
 
       .hero h1 {
         font-size: clamp(2.5rem, 6vw, 4.5rem);
         font-weight: 800;
+        letter-spacing: -0.03em;
         margin-bottom: 1rem;
-        line-height: 1.1;
+        line-height: 1.05;
       }
 
       .hero-subtitle {
         font-size: clamp(1.1rem, 2vw, 1.4rem);
         opacity: 0.95;
-        margin-bottom: 2rem;
+        margin-bottom: 2.25rem;
         font-weight: 300;
+        max-width: 640px;
+        margin-inline: auto;
       }
 
       .hero-stats {
         display: flex;
         justify-content: center;
         gap: 3rem;
-        margin-top: 3rem;
+        margin-top: 3.25rem;
         flex-wrap: wrap;
       }
 
@@ -195,12 +258,13 @@
       .stat-value {
         font-size: 2.5rem;
         font-weight: 800;
+        letter-spacing: -0.02em;
         display: block;
       }
 
       .stat-label {
         font-size: 0.9rem;
-        opacity: 0.8;
+        opacity: 0.85;
       }
 
       .cta-button {
@@ -211,13 +275,15 @@
         text-decoration: none;
         border-radius: 50px;
         font-weight: 600;
-        transition: all 0.3s;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
       }
 
       .cta-button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.3);
       }
 
       /* Sections */
@@ -235,6 +301,7 @@
       .section-title h2 {
         font-size: clamp(2rem, 4vw, 3rem);
         font-weight: 800;
+        letter-spacing: -0.02em;
         margin-bottom: 1rem;
         color: var(--gray-900);
       }
@@ -269,16 +336,18 @@
       .icon-card {
         background: white;
         padding: 2rem;
-        border-radius: 20px;
+        border-radius: var(--radius-lg);
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s;
+        box-shadow: var(--shadow-sm);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
         border: 1px solid var(--gray-100);
       }
 
       .icon-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(37, 99, 235, 0.15);
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
       }
 
       .icon-card svg {
@@ -301,6 +370,7 @@
 
       .about-text h3 {
         font-size: 1.8rem;
+        letter-spacing: -0.01em;
         margin-bottom: 1.5rem;
         color: var(--gray-900);
       }
@@ -346,7 +416,7 @@
 
       .timeline-dot {
         position: absolute;
-        top: 20px;
+        top: 22px;
         width: 20px;
         height: 20px;
         background: var(--gradient);
@@ -366,8 +436,8 @@
       .timeline-content {
         background: white;
         padding: 2rem;
-        border-radius: 15px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-sm);
         transition: transform 0.3s;
       }
 
@@ -418,6 +488,17 @@
         color: var(--accent);
       }
 
+      /* odd-Items: Aufzählungspunkt rechts ausrichten */
+      .timeline-item:nth-child(odd) .timeline-content ul li {
+        padding-left: 0;
+        padding-right: 1.5rem;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content ul li::before {
+        left: auto;
+        right: 0;
+      }
+
       /* Skills */
       .skills-grid {
         display: grid;
@@ -428,26 +509,27 @@
       .skill-card {
         background: white;
         padding: 2.5rem;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
       }
 
       .skill-card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-md);
       }
 
       .skill-card-icon {
         width: 60px;
         height: 60px;
         background: var(--gradient);
-        border-radius: 15px;
+        border-radius: var(--radius-sm);
         display: flex;
         align-items: center;
         justify-content: center;
         color: white;
-        font-size: 1.5rem;
         margin-bottom: 1.5rem;
       }
 
@@ -487,9 +569,10 @@
 
       .skill-progress {
         height: 100%;
+        width: 0;
         background: var(--gradient);
         border-radius: 10px;
-        transition: width 1.5s ease;
+        transition: width 1.4s ease;
       }
 
       /* Languages */
@@ -502,19 +585,20 @@
       .language-card {
         background: white;
         padding: 2rem;
-        border-radius: 15px;
+        border-radius: var(--radius-md);
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        box-shadow: var(--shadow-sm);
         transition: transform 0.3s;
       }
 
       .language-card:hover {
-        transform: scale(1.05);
+        transform: scale(1.04);
       }
 
       .language-flag {
         font-size: 3rem;
         margin-bottom: 1rem;
+        line-height: 1;
       }
 
       .language-card h3 {
@@ -531,7 +615,7 @@
       .language-dots {
         display: flex;
         justify-content: center;
-        gap: 0.3rem;
+        gap: 0.4rem;
       }
 
       .dot {
@@ -555,15 +639,17 @@
       .interest-card {
         background: white;
         padding: 2rem;
-        border-radius: 15px;
+        border-radius: var(--radius-md);
         text-align: center;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        transition: all 0.3s;
+        box-shadow: var(--shadow-sm);
+        transition:
+          transform 0.3s,
+          box-shadow 0.3s;
       }
 
       .interest-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        box-shadow: var(--shadow-md);
       }
 
       .interest-card svg {
@@ -575,6 +661,7 @@
 
       .interest-card h3 {
         color: var(--gray-900);
+        font-size: 1.05rem;
       }
 
       /* Contact */
@@ -609,15 +696,17 @@
       .contact-card {
         background: var(--gray-900);
         padding: 2rem;
-        border-radius: 15px;
+        border-radius: var(--radius-md);
         text-align: center;
-        transition: all 0.3s;
+        transition:
+          transform 0.3s,
+          background 0.3s;
         text-decoration: none;
         color: white;
       }
 
       .contact-card:hover {
-        transform: translateY(-10px);
+        transform: translateY(-8px);
         background: var(--primary-dark);
       }
 
@@ -634,7 +723,7 @@
 
       .contact-card p {
         color: var(--gray-300);
-        word-break: break-all;
+        word-break: break-word;
       }
 
       /* Footer */
@@ -665,15 +754,44 @@
         color: white;
       }
 
+      /* Scroll-to-top */
+      .scroll-top {
+        position: fixed;
+        bottom: 1.75rem;
+        right: 1.75rem;
+        width: 48px;
+        height: 48px;
+        border: none;
+        border-radius: 50%;
+        background: var(--gradient);
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-md);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(12px);
+        transition:
+          opacity 0.3s,
+          visibility 0.3s,
+          transform 0.3s;
+        z-index: 900;
+      }
+
+      .scroll-top.visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+      }
+
       /* Modal */
       .modal {
         display: none;
         position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.7);
+        inset: 0;
+        background: rgba(15, 23, 42, 0.7);
         z-index: 2000;
         overflow-y: auto;
       }
@@ -691,7 +809,7 @@
         width: 100%;
         max-height: 90vh;
         overflow-y: auto;
-        border-radius: 20px;
+        border-radius: var(--radius-lg);
         padding: 3rem;
         position: relative;
         animation: fadeInUp 0.3s ease;
@@ -704,6 +822,7 @@
         background: none;
         border: none;
         font-size: 2rem;
+        line-height: 1;
         cursor: pointer;
         color: var(--gray-500);
         transition: color 0.3s;
@@ -726,6 +845,13 @@
         color: var(--gray-900);
       }
 
+      .modal h4 {
+        font-size: 1.05rem;
+        margin-top: 1rem;
+        margin-bottom: 0.4rem;
+        color: var(--gray-700);
+      }
+
       .modal p,
       .modal li {
         margin-bottom: 0.8rem;
@@ -738,6 +864,11 @@
         margin-bottom: 1rem;
       }
 
+      .modal a {
+        color: var(--primary);
+        word-break: break-word;
+      }
+
       /* Cookie Banner */
       .cookie-banner {
         position: fixed;
@@ -748,7 +879,7 @@
         color: white;
         padding: 1.5rem 2rem;
         z-index: 1500;
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 -5px 20px rgba(15, 23, 42, 0.2);
         display: none;
       }
 
@@ -777,6 +908,7 @@
       .cookie-content a {
         color: var(--accent);
         text-decoration: underline;
+        cursor: pointer;
       }
 
       .cookie-buttons {
@@ -790,7 +922,7 @@
         border-radius: 8px;
         font-weight: 600;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: background 0.3s;
       }
 
       .cookie-btn.accept {
@@ -800,15 +932,6 @@
 
       .cookie-btn.accept:hover {
         background: var(--primary-dark);
-      }
-
-      .cookie-btn.close {
-        background: var(--gray-700);
-        color: white;
-      }
-
-      .cookie-btn.close:hover {
-        background: var(--gray-500);
       }
 
       /* Animations */
@@ -835,7 +958,9 @@
       .fade-in {
         opacity: 0;
         transform: translateY(30px);
-        transition: all 0.8s ease;
+        transition:
+          opacity 0.8s ease,
+          transform 0.8s ease;
       }
 
       .fade-in.visible {
@@ -853,12 +978,18 @@
           width: 100%;
           background: white;
           flex-direction: column;
-          padding: 1rem;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+          gap: 0;
+          padding: 0.5rem 1rem 1rem;
+          border-bottom: 1px solid var(--gray-200);
+          box-shadow: 0 10px 30px rgba(15, 23, 42, 0.1);
         }
 
         .nav-links.active {
           display: flex;
+        }
+
+        .nav-links li {
+          padding: 0.6rem 0;
         }
 
         .mobile-toggle {
@@ -878,16 +1009,22 @@
           padding-left: 50px;
           padding-right: 1rem;
           text-align: left !important;
-        }
-
-        .timeline-item:nth-child(odd),
-        .timeline-item:nth-child(even) {
-          left: 0;
+          left: 0 !important;
         }
 
         .timeline-dot {
           left: 10px !important;
           right: auto !important;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content ul li {
+          padding-left: 1.5rem;
+          padding-right: 0;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content ul li::before {
+          left: 0;
+          right: auto;
         }
 
         .hero-stats {
@@ -911,21 +1048,44 @@
           justify-content: center;
         }
       }
+
+      /* Reduzierte Bewegung respektieren */
+      @media (prefers-reduced-motion: reduce) {
+        html {
+          scroll-behavior: auto;
+        }
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+        }
+        .fade-in {
+          opacity: 1;
+          transform: none;
+        }
+      }
     </style>
   </head>
   <body>
-    <!-- SVG Gradient Definition -->
-    <svg width="0" height="0" style="position: absolute">
+    <!-- SVG Gradient Definition (für Icons) -->
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true">
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color: #2563eb" />
-          <stop offset="100%" style="stop-color: #06b6d4" />
+          <stop offset="0%" stop-color="#2563eb" />
+          <stop offset="100%" stop-color="#06b6d4" />
         </linearGradient>
       </defs>
     </svg>
 
     <!-- Cookie Banner -->
-    <div class="cookie-banner" id="cookieBanner">
+    <div
+      class="cookie-banner"
+      id="cookieBanner"
+      role="region"
+      aria-label="Hinweis"
+    >
       <div class="cookie-content">
         <p>
           🍪 Diese Website verwendet keine Cookies oder Tracking. Sie können die
@@ -943,9 +1103,19 @@
     </div>
 
     <!-- Impressum Modal -->
-    <div class="modal" id="imprintModal">
+    <div
+      class="modal"
+      id="imprintModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Impressum"
+    >
       <div class="modal-content">
-        <button class="modal-close" onclick="closeModal('imprintModal')">
+        <button
+          class="modal-close"
+          onclick="closeModal('imprintModal')"
+          aria-label="Schließen"
+        >
           &times;
         </button>
         <h2>Impressum</h2>
@@ -998,7 +1168,10 @@
         <p>
           Die Europäische Kommission stellt eine Plattform zur
           Online-Streitbeilegung (OS) bereit:
-          <a href="https://ec.europa.eu/consumers/odr/" target="_blank"
+          <a
+            href="https://ec.europa.eu/consumers/odr/"
+            target="_blank"
+            rel="noopener"
             >https://ec.europa.eu/consumers/odr/</a
           >
         </p>
@@ -1010,9 +1183,19 @@
     </div>
 
     <!-- Datenschutz Modal -->
-    <div class="modal" id="privacyModal">
+    <div
+      class="modal"
+      id="privacyModal"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Datenschutzerklärung"
+    >
       <div class="modal-content">
-        <button class="modal-close" onclick="closeModal('privacyModal')">
+        <button
+          class="modal-close"
+          onclick="closeModal('privacyModal')"
+          aria-label="Schließen"
+        >
           &times;
         </button>
         <h2>Datenschutzerklärung</h2>
@@ -1116,10 +1299,10 @@
 
         <h3>5. SSL-Verschlüsselung</h3>
         <p>
-          Diese Website nutzt aus Sicherheitsheitsgründen eine
-          SSL-Verschlüsselung (erkennbar an "https://" in der Adresszeile).
-          Dadurch wird sichergestellt, dass Ihre Daten bei der Übertragung nicht
-          von Dritten mitgelesen werden können.
+          Diese Website nutzt aus Sicherheitsgründen eine SSL-Verschlüsselung
+          (erkennbar an "https://" in der Adresszeile). Dadurch wird
+          sichergestellt, dass Ihre Daten bei der Übertragung nicht von Dritten
+          mitgelesen werden können.
         </p>
 
         <h3>6. Aktualität</h3>
@@ -1135,16 +1318,23 @@
     <!-- Navigation -->
     <nav>
       <div class="nav-container">
-        <div class="logo">DM.</div>
+        <a href="#home" class="logo">DM.</a>
         <ul class="nav-links" id="navLinks">
           <li><a href="#home">Home</a></li>
           <li><a href="#about">Über mich</a></li>
           <li><a href="#timeline">Werdegang</a></li>
           <li><a href="#skills">Skills</a></li>
           <li><a href="#languages">Sprachen</a></li>
+          <li><a href="#interests">Interessen</a></li>
           <li><a href="#contact">Kontakt</a></li>
         </ul>
-        <button class="mobile-toggle" onclick="toggleMenu()">
+        <button
+          class="mobile-toggle"
+          onclick="toggleMenu()"
+          aria-label="Menü öffnen"
+          aria-expanded="false"
+          aria-controls="navLinks"
+        >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
             <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" />
           </svg>
@@ -1155,6 +1345,8 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
       <div class="hero-content">
+        <div class="hero-avatar" aria-hidden="true">DM</div>
+        <span class="hero-badge">Wirtschaftsinformatik · Aachen</span>
         <h1>Dawid Makowski</h1>
         <p class="hero-subtitle">
           IT-orientierter Berufseinsteiger mit Fokus auf Wirtschaftsinformatik,
@@ -1190,7 +1382,7 @@
       <div class="about-grid">
         <div class="about-icon-grid fade-in">
           <div class="icon-card">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
               />
@@ -1199,7 +1391,7 @@
             <p>Studium an der FH Aachen ab 2025</p>
           </div>
           <div class="icon-card">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"
               />
@@ -1208,7 +1400,7 @@
             <p>BWL, Finanzen & digitale Prozesse</p>
           </div>
           <div class="icon-card">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"
               />
@@ -1217,7 +1409,7 @@
             <p>DEKRA-zertifizierter Beauftragter</p>
           </div>
           <div class="icon-card">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M2 20h20v-4H2v4zm2-3h2v2H4v-2zM2 4v4h20V4H2zm4 3H4V5h2v2zm-4 7h20v-4H2v4zm2-3h2v2H4v-2z"
               />
@@ -1345,7 +1537,13 @@
       <div class="skills-grid">
         <div class="skill-card fade-in">
           <div class="skill-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path
                 d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
               />
@@ -1358,7 +1556,7 @@
               <span class="skill-level">Sehr gut</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 95%"></div>
+              <div class="skill-progress" data-width="95%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1367,7 +1565,7 @@
               <span class="skill-level">Sehr gut</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 95%"></div>
+              <div class="skill-progress" data-width="95%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1376,7 +1574,7 @@
               <span class="skill-level">Sehr gut</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 90%"></div>
+              <div class="skill-progress" data-width="90%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1385,14 +1583,20 @@
               <span class="skill-level">Fortgeschritten</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 70%"></div>
+              <div class="skill-progress" data-width="70%"></div>
             </div>
           </div>
         </div>
 
         <div class="skill-card fade-in">
           <div class="skill-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path
                 d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"
               />
@@ -1404,7 +1608,7 @@
               <span class="skill-name">Digitale Geschäftsprozesse</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 85%"></div>
+              <div class="skill-progress" data-width="85%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1412,7 +1616,7 @@
               <span class="skill-name">BWL & Finanzen</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 75%"></div>
+              <div class="skill-progress" data-width="75%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1420,7 +1624,7 @@
               <span class="skill-name">Datenschutz & Compliance</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 80%"></div>
+              <div class="skill-progress" data-width="80%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1428,14 +1632,20 @@
               <span class="skill-name">Datenbasierte Entscheidungen</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 70%"></div>
+              <div class="skill-progress" data-width="70%"></div>
             </div>
           </div>
         </div>
 
         <div class="skill-card fade-in">
           <div class="skill-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              aria-hidden="true"
+            >
               <path
                 d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
               />
@@ -1447,7 +1657,7 @@
               <span class="skill-name">Zuverlässigkeit</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 95%"></div>
+              <div class="skill-progress" data-width="95%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1455,7 +1665,7 @@
               <span class="skill-name">Strukturierte Arbeitsweise</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 90%"></div>
+              <div class="skill-progress" data-width="90%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1463,7 +1673,7 @@
               <span class="skill-name">Lernbereitschaft</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 98%"></div>
+              <div class="skill-progress" data-width="98%"></div>
             </div>
           </div>
           <div class="skill-item">
@@ -1471,7 +1681,7 @@
               <span class="skill-name">Technisches Verständnis</span>
             </div>
             <div class="skill-bar">
-              <div class="skill-progress" style="width: 88%"></div>
+              <div class="skill-progress" data-width="88%"></div>
             </div>
           </div>
         </div>
@@ -1491,7 +1701,7 @@
           <div class="language-flag">🇩🇪</div>
           <h3>Deutsch</h3>
           <div class="language-level">Muttersprache</div>
-          <div class="language-dots">
+          <div class="language-dots" aria-label="5 von 5">
             <div class="dot filled"></div>
             <div class="dot filled"></div>
             <div class="dot filled"></div>
@@ -1504,7 +1714,7 @@
           <div class="language-flag">🇵🇱</div>
           <h3>Polnisch</h3>
           <div class="language-level">Muttersprache</div>
-          <div class="language-dots">
+          <div class="language-dots" aria-label="5 von 5">
             <div class="dot filled"></div>
             <div class="dot filled"></div>
             <div class="dot filled"></div>
@@ -1517,7 +1727,7 @@
           <div class="language-flag">🇬🇧</div>
           <h3>Englisch</h3>
           <div class="language-level">Fließend (B2/C1)</div>
-          <div class="language-dots">
+          <div class="language-dots" aria-label="4 von 5">
             <div class="dot filled"></div>
             <div class="dot filled"></div>
             <div class="dot filled"></div>
@@ -1530,7 +1740,7 @@
           <div class="language-flag">🇫🇷</div>
           <h3>Französisch</h3>
           <div class="language-level">Gute Kenntnisse (B1)</div>
-          <div class="language-dots">
+          <div class="language-dots" aria-label="3 von 5">
             <div class="dot filled"></div>
             <div class="dot filled"></div>
             <div class="dot filled"></div>
@@ -1551,7 +1761,7 @@
 
       <div class="interests-grid">
         <div class="interest-card fade-in">
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M22 9V7h-2V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-2h2v-2h-2v-2h2v-2h-2V9h2zm-4 10H4V5h14v14zM6 13h5v4H6zm6-6h4v3h-4zM6 7h5v5H6zm6 4h4v6h-4z"
             />
@@ -1559,7 +1769,7 @@
           <h3>Technik</h3>
         </div>
         <div class="interest-card fade-in">
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M3.5 18.49l6-6.01 4 4L22 6.92l-1.41-1.41-7.09 7.97-4-4L2 16.99z"
             />
@@ -1567,7 +1777,7 @@
           <h3>Wirtschaft & Finanzen</h3>
         </div>
         <div class="interest-card fade-in">
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z"
             />
@@ -1575,7 +1785,7 @@
           <h3>Fahrradfahren</h3>
         </div>
         <div class="interest-card fade-in">
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
               d="M19.44 9.03L15.41 5H11v2h3.59l2 2H5c-2.8 0-5 2.2-5 5s2.2 5 5 5c2.46 0 4.45-1.69 4.9-4h1.65l2.77-2.77c-.21.54-.32 1.14-.32 1.77 0 2.8 2.2 5 5 5s5-2.2 5-5c0-2.65-1.97-4.74-4.56-4.97zM7.82 15C7.4 16.15 6.28 17 5 17c-1.63 0-3-1.37-3-3s1.37-3 3-3c1.28 0 2.4.85 2.82 2H5v2h2.82zM19 17c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3z"
             />
@@ -1583,9 +1793,9 @@
           <h3>Motorradfahren</h3>
         </div>
         <div class="interest-card fade-in">
-          <svg viewBox="0 0 24 24">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
             <path
-              d="M15.5 5.5c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zM5 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm5.8-10l2.4-2.4.8.8c1.3 1.3 3 2.1 5.1 2.1V9c-1.5 0-2.7-.6-3.6-1.5l-1.9-1.9c-.5-.4-1-.6-1.6-.6s-1.1.2-1.4.6L7.8 8.4c-.4.4-.6.9-.6 1.4 0 .6.2 1.1.6 1.4L11 14v5h2v-6.2l-2.2-2.3zM19 12c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5zm0 8.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5z"
+              d="M22 11h-4.17l3.24-3.24-1.41-1.42L15 11h-2V9l4.66-4.66-1.42-1.41L13 6.17V2h-2v4.17L7.76 2.93 6.34 4.34 11 9v2H9L4.34 6.34 2.93 7.76 6.17 11H2v2h4.17l-3.24 3.24 1.41 1.42L9 13h2v2l-4.66 4.66 1.42 1.41L11 17.83V22h2v-4.17l3.24 3.24 1.42-1.41L13 15v-2h2l4.66 4.66 1.41-1.42L17.83 13H22z"
             />
           </svg>
           <h3>Skifahren</h3>
@@ -1607,7 +1817,7 @@
             href="mailto:dawid.makowski@outlook.de"
             class="contact-card fade-in"
           >
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"
               />
@@ -1617,7 +1827,7 @@
           </a>
 
           <a href="tel:+4915114166580" class="contact-card fade-in">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56-.35-.12-.74-.03-1.01.24l-1.57 1.97c-2.83-1.35-5.48-3.9-6.89-6.83l1.95-1.66c.27-.28.35-.67.24-1.02-.37-1.11-.56-2.3-.56-3.53 0-.54-.45-.99-.99-.99H4.19C3.65 3 3 3.24 3 3.99 3 13.28 10.73 21 20.01 21c.71 0 .99-.63.99-1.18v-3.45c0-.54-.45-.99-.99-.99z"
               />
@@ -1627,7 +1837,7 @@
           </a>
 
           <div class="contact-card fade-in">
-            <svg viewBox="0 0 24 24">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
               <path
                 d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"
               />
@@ -1648,13 +1858,40 @@
       </div>
     </footer>
 
+    <!-- Scroll-to-top -->
+    <button class="scroll-top" id="scrollTop" aria-label="Nach oben scrollen">
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+      >
+        <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z" />
+      </svg>
+    </button>
+
     <script>
-      // Mobile Menu Toggle
+      // Mobile-Menü
+      const navLinksEl = document.getElementById("navLinks");
+      const toggleBtn = document.querySelector(".mobile-toggle");
+
       function toggleMenu() {
-        document.getElementById("navLinks").classList.toggle("active");
+        const open = navLinksEl.classList.toggle("active");
+        toggleBtn.setAttribute("aria-expanded", open ? "true" : "false");
+        toggleBtn.setAttribute(
+          "aria-label",
+          open ? "Menü schließen" : "Menü öffnen",
+        );
       }
 
-      // Modal Functions
+      function closeMenu() {
+        navLinksEl.classList.remove("active");
+        toggleBtn.setAttribute("aria-expanded", "false");
+        toggleBtn.setAttribute("aria-label", "Menü öffnen");
+      }
+
+      // Modals
       function openModal(id) {
         document.getElementById(id).classList.add("active");
         document.body.style.overflow = "hidden";
@@ -1665,7 +1902,6 @@
         document.body.style.overflow = "";
       }
 
-      // Close modal on background click
       document.querySelectorAll(".modal").forEach((modal) => {
         modal.addEventListener("click", (e) => {
           if (e.target === modal) {
@@ -1675,7 +1911,6 @@
         });
       });
 
-      // Close modal on Escape key
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
           document.querySelectorAll(".modal.active").forEach((modal) => {
@@ -1685,71 +1920,102 @@
         }
       });
 
-      // Cookie Banner
+      // Cookie-Banner (localStorage defensiv – bricht nie das Skript ab)
+      function safeStorage(action, key, value) {
+        try {
+          if (action === "get") return localStorage.getItem(key);
+          if (action === "set") localStorage.setItem(key, value);
+        } catch (e) {
+          return null;
+        }
+      }
+
       function acceptCookies() {
-        localStorage.setItem("cookieConsent", "true");
+        safeStorage("set", "cookieConsent", "true");
         document.getElementById("cookieBanner").classList.remove("active");
       }
 
-      if (!localStorage.getItem("cookieConsent")) {
+      if (!safeStorage("get", "cookieConsent")) {
         setTimeout(() => {
           document.getElementById("cookieBanner").classList.add("active");
         }, 1500);
       }
 
-      // Close menu on link click (mobile)
+      // Menü bei Link-Klick schließen (mobil)
       document.querySelectorAll(".nav-links a").forEach((link) => {
-        link.addEventListener("click", () => {
-          document.getElementById("navLinks").classList.remove("active");
-        });
+        link.addEventListener("click", closeMenu);
       });
 
-      // Fade-in Animation on Scroll
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: "0px 0px -50px 0px",
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      }, observerOptions);
-
+      // Fade-in beim Scrollen
+      const fadeObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              fadeObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+      );
       document
         .querySelectorAll(".fade-in")
-        .forEach((el) => observer.observe(el));
+        .forEach((el) => fadeObserver.observe(el));
 
-      // Navbar scroll effect
+      // Navbar-Schatten + Scroll-to-top-Button
+      const navEl = document.querySelector("nav");
+      const scrollTopBtn = document.getElementById("scrollTop");
+
       window.addEventListener("scroll", () => {
-        const nav = document.querySelector("nav");
-        if (window.scrollY > 100) {
-          nav.style.boxShadow = "0 5px 30px rgba(0,0,0,0.1)";
-        } else {
-          nav.style.boxShadow = "0 2px 20px rgba(0,0,0,0.05)";
-        }
+        const y = window.scrollY;
+        navEl.style.boxShadow =
+          y > 100
+            ? "0 5px 30px rgba(15,23,42,0.1)"
+            : "0 2px 20px rgba(15,23,42,0.04)";
+        scrollTopBtn.classList.toggle("visible", y > 500);
       });
 
-      // Skill bars animation
-      const skillBars = document.querySelectorAll(".skill-progress");
+      scrollTopBtn.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Skill-Balken animieren, sobald sichtbar
       const skillObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              const width = entry.target.style.width;
-              entry.target.style.width = "0";
-              setTimeout(() => {
-                entry.target.style.width = width;
-              }, 100);
+              entry.target.style.width = entry.target.dataset.width;
+              skillObserver.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.5 },
+        { threshold: 0.4 },
       );
+      document
+        .querySelectorAll(".skill-progress")
+        .forEach((bar) => skillObserver.observe(bar));
 
-      skillBars.forEach((bar) => skillObserver.observe(bar));
+      // Scroll-Spy: aktiven Navigationslink hervorheben
+      const sections = document.querySelectorAll("section[id]");
+      const navAnchors = document.querySelectorAll(".nav-links a");
+
+      const spyObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const id = entry.target.getAttribute("id");
+              navAnchors.forEach((a) =>
+                a.classList.toggle(
+                  "active",
+                  a.getAttribute("href") === "#" + id,
+                ),
+              );
+            }
+          });
+        },
+        { rootMargin: "-45% 0px -50% 0px" },
+      );
+      sections.forEach((s) => spyObserver.observe(s));
     </script>
   </body>
 </html>
